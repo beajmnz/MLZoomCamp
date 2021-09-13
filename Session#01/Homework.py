@@ -81,3 +81,7 @@ invXTX.sum()
 #    Create an array y with values [1000, 1100, 900, 1200, 1000, 850, 1300].
 #    Multiply the inverse of XTX with the transpose of X, and then multiply the result by y. Call the result w.
 #    What's the value of the first element of w?.
+
+y = np.array([1000, 1100, 900, 1200, 1000, 850, 1300])
+w = invXTX.dot(X.T).dot(y)
+w[0]
