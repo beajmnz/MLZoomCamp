@@ -72,7 +72,9 @@ X = cars[cars.Make == "Rolls-Royce"][
 Xnp = np.array(X)
 Xnp.T
 
-XTX = np.multiply(Xnp, Xnp.T)
+XTX = Xnp.T.dot(Xnp)
+invXTX = np.linalg.inv(XTX)
+invXTX.sum()
 
 # Questions 7
 
