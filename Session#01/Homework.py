@@ -57,7 +57,8 @@ round(cars["Engine HP"].mean()) == avgHP
 #    Select only columns "Engine HP", "Engine Cylinders", "highway MPG".
 #    Now drop all duplicated rows using drop_duplicates method (you should get a dataframe with 7 rows).
 #    Get the underlying NumPy array. Let's call it X.
-#    Compute matrix-matrix multiplication between the transpose of X and X. To get the transpose, use X.T. Let's call the result XTX.
+#    Compute matrix-matrix multiplication between the transpose of X and X. To get the transpose, use X.T.
+#        Let's call the result XTX.
 #    Invert XTX.
 #    What's the sum of all the elements of the result?
 
@@ -68,7 +69,10 @@ cars[cars.Make == "Rolls-Royce"][["Engine HP", "Engine Cylinders", "highway MPG"
 X = cars[cars.Make == "Rolls-Royce"][
     ["Engine HP", "Engine Cylinders", "highway MPG"]
 ].drop_duplicates()
+Xnp = np.array(X)
+Xnp.T
 
+XTX = np.multiply(Xnp, Xnp.T)
 
 # Questions 7
 
