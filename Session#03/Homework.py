@@ -126,6 +126,10 @@ correlation_matrix = houses_train.corr()
 #calculated_host_listings_count	0.019375156668755916	-0.11704068790956335	0.11864675413775373	-0.07316723252176341	-0.04876681579311577	1.0	0.22591308547640596
 #availability_365	-0.0058911861711353165	0.08366550097084335	0.13890125161844732	0.17447711716588918	0.16537591986288716	0.22591308547640596	1.0
 
+correlation_matrix.unstack().sort_values(ascending=False)
+
+# biggest correlation is between reviews_per_month and number_of_reviews
+
 price_average = 152
 above_average = np.where(y_train > price_average, 1, 0)
 above_average_val = np.where(y_val > price_average, 1, 0)
@@ -222,12 +226,17 @@ for i in range(len(houses_train.columns)):
 """
 Question 6
 
-    For this question, we'll see how to use a linear regression model from Scikit-Learn
-    We'll need to use the original column 'price'. Apply the logarithmic transformation to this column.
+    For this question, we'll see how to use a linear regression model from 
+       Scikit-Learn
+    We'll need to use the original column 'price'. Apply the logarithmic 
+       transformation to this column.
     Fit the Ridge regression model on the training data.
-    This model has a parameter alpha. Let's try the following values: [0, 0.01, 0.1, 1, 10]
-    Which of these alphas leads to the best RMSE on the validation set? Round your RMSE scores to 3 decimal digits.
+    This model has a parameter alpha. Let's try the following values: 
+        [0, 0.01, 0.1, 1, 10]
+    Which of these alphas leads to the best RMSE on the validation set? Round 
+       your RMSE scores to 3 decimal digits.
 
 If there are multiple options, select the smallest alpha.
 """
+
 
