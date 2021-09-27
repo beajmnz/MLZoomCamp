@@ -22,6 +22,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mutual_info_score
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import Ridge
+from sklearn.metrics import mean_squared_error
 
 
 url = "https://raw.githubusercontent.com/alexeygrigorev/datasets/master/AB_NYC_2019.csv"
@@ -223,6 +225,8 @@ for i in range(len(houses_train.columns)):
     print (houses_train.columns[i], accuracies[i], round(model_acc - accuracies[i],3))
     
 
+# reviews_per_month has the smallest difference
+
 """
 Question 6
 
@@ -239,4 +243,43 @@ Question 6
 If there are multiple options, select the smallest alpha.
 """
 
+houses['price'] = np.log1p(houses.price)
 
+houses_full_train, houses_test = train_test_split(houses, test_size=.2, random_state=42)
+houses_train, houses_val = train_test_split(houses_full_train, test_size=.25, random_state=42)
+ 
+houses_train = houses_train.reset_index(drop=True)
+houses_val = houses_val.reset_index(drop=True)
+houses_test = houses_test.reset_index(drop=True)
+
+y_train = houses_train.price.values
+y_val = houses_val.price.values
+y_test = houses_test.price.values
+
+del houses_train['price']
+del houses_val['price']
+del houses_test['price']
+
+train_dict = houses_train.to_dict(orient='records')
+X_train = dv.fit_transform(train_dict)
+
+val_dict = houses_val.to_dict(orient='records')
+X_val = dv.transform(val_dict)
+
+for alpha in [0, 0.01, 0.1, 1, 10]:
+    model_lr = Ridge(alpha = alpha, random_state = 42) 
+    model_lr.fit(X_train, y_train)
+    
+    y_pred = model_lr.predict(X_val)
+    
+    rmse = np.sqrt(mean_squared_error(y_val, y_pred))
+    
+    print(alpha, round(rmse, 3))
+
+# 0 0.497
+# 0.01 0.497
+# 0.1 0.497
+# 1 0.497
+# 10 0.498
+
+# there is a draw, so the answer is 0
