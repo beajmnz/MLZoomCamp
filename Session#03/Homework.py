@@ -171,7 +171,7 @@ model = LogisticRegression(solver='lbfgs', C=1.0, random_state=42)
 model.fit(X_train, above_average)
 
 y_pred = model.predict_proba(X_val)[:,1]
-round((above_average_val == (y_pred >= .5)).mean(),2)  # .79
+model_acc = round((above_average_val == (y_pred >= .5)).mean(),2)  # .79
 
 
 """
@@ -193,6 +193,8 @@ Question 5
     note: the difference doesn't have to be positive
 """
 
+accuracies = []
+
 for feat in houses_train.columns:
     houses_train_temp = houses_train.copy()
     del houses_train_temp[feat]
@@ -210,7 +212,11 @@ for feat in houses_train.columns:
     model.fit(X_train, above_average)
 
     y_pred = model.predict_proba(X_val)[:,1]
-    print(feat, round((above_average_val == (y_pred >= .5)).mean(),4))
+    acc = round((above_average_val == (y_pred >= .5)).mean(),4)
+    accuracies.append(acc)
+
+for i in range(len(houses_train.columns)):
+    print (houses_train.columns[i], accuracies[i], round(model_acc - accuracies[i],3))
     
 
 """
@@ -224,3 +230,4 @@ Question 6
 
 If there are multiple options, select the smallest alpha.
 """
+
