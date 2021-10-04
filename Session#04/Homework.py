@@ -212,6 +212,8 @@ model_auc = roc_auc_score(y_val, y_pred)
 
 print(model_auc.round(3))
 
+# AUC is 0.812
+
 """
 Question 3
 
@@ -347,7 +349,7 @@ for train_idx, val_idx in kfold.split(df_full_train):
     auc = roc_auc_score(y_val, y_pred)
     scores.append(auc)
 
-    print('%.3f +- %.3f' % (np.mean(scores), np.std(scores)))
+print('%.3f +- %.3f' % (np.mean(scores), np.std(scores)))
 
 # 0.826 +- 0.000
 # 0.826 +- 0.000
@@ -380,9 +382,9 @@ If you have ties, select the score with the lowest std. If you still have ties,
   select the smallest C
 """
 
-for C in [0.01, 0.1, 1, 10]:
+kfold = KFold(n_splits=5, shuffle=True, random_state=1)
 
-    kfold = KFold(n_splits=5, shuffle=True, random_state=1)
+for C in [0.01, 0.1, 1, 10]:
 
     scores = []
     
@@ -393,7 +395,7 @@ for C in [0.01, 0.1, 1, 10]:
         y_train = df_train.default.values
         y_val = df_val.default.values
     
-        dv, model = train(df_train, y_train)
+        dv, model = train(df_train, y_train, C=C)
         y_pred = predict(df_val, dv, model)
     
         auc = roc_auc_score(y_val, y_pred)
